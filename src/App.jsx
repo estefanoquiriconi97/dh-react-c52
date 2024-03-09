@@ -1,48 +1,40 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import './App.css'
 import { Gif } from './assets/components/Gif'
+import { NavBar } from './assets/components/NavBar'
 
-const URL_BASE = 'https://api.giphy.com/v1/gifs/trending'
+const URL_BASE = 'https://api.giphy.com/v1/gifs'
 const API_KEY = '2G3plNGzf5KAERR1ekVJPak9Xo1yaLpv'
+const QUANTITY = 3;
 
 function App() {
   const [gifs, setGifs] = useState([])
 
   const fetchApi = async () => {
-    const response = await fetch(`${URL_BASE}?api_key=${API_KEY}&limit=4`)
+    const response = await fetch(
+      `${URL_BASE}/trending?api_key=${API_KEY}&limit=${QUANTITY}`
+    )
     const data = await response.json()
     setGifs(data.data)
   }
 
+  const cargarRandoms = async (length) => {
+    const randoms = []
+    for (let i = 0; i < gifs.length; i++) {
+      const response = await fetch(`${URL_BASE}/random?api_key=${API_KEY}`)
+      const data = await response.json()
+      randoms[i] = data.data
+    }
+    setGifs(randoms)
+  }
+
+  useEffect(() => {
+    fetchApi()
+  }, [])
+
   return (
     <>
-      <nav className='navbar navbar-expand-lg navbar-dark bg-dark fixed-top'>
-        <div className='container'>
-          <a className='navbar-brand' href='#'>
-            GIPHY APP
-          </a>
-          <button
-            className='navbar-toggler'
-            type='button'
-            data-toggle='collapse'
-            data-target='#navbarResponsive'
-            aria-controls='navbarResponsive'
-            aria-expanded='false'
-            aria-label='Toggle navigation'
-          >
-            <span className='navbar-toggler-icon'></span>
-          </button>
-        </div>
-        <div className='collapse navbar-collapse' id='navbarResponsive'>
-          <ul className='nav ml-auto'>
-            <li className='nav-item'>
-              <button className='btn btn-success' onClick={fetchApi}>
-                Cargar random
-              </button>
-            </li>
-          </ul>
-        </div>
-      </nav>
+      <NavBar cargarRandoms={cargarRandoms} />
       <div className='container'>
         <div className='row text-center'>
           {gifs.map((gif) => (
