@@ -3,9 +3,14 @@ import './App.css'
 import { Gif } from './assets/components/Gif'
 import { NavBar } from './assets/components/NavBar'
 
+import { Routes, Route, Link } from 'react-router-dom'
+import { Home } from './assets/components/Home'
+import { Contact } from './assets/components/Contact'
+import { About } from './assets/components/About'
+
 const URL_BASE = 'https://api.giphy.com/v1/gifs'
 const API_KEY = '2G3plNGzf5KAERR1ekVJPak9Xo1yaLpv'
-const QUANTITY = 3;
+const QUANTITY = 3
 
 function App() {
   const [gifs, setGifs] = useState([])
@@ -34,7 +39,22 @@ function App() {
 
   return (
     <>
+
       <NavBar cargarRandoms={cargarRandoms} />
+      <div className='text-center'>
+        <Routes>
+          <Route path='/' element={<Home />} />
+          <Route path='/about' element={<About />} />
+          <Route path='/contact' element={<Contact />} />
+          <Route path='*' element={<h1>PAGE NOT FOUND</h1>}/>
+        </Routes>
+      </div>
+      <div>
+        <Link to="/">Home</Link> <br />
+        <Link to="/about">About</Link> <br />
+        <Link to="/contact">Contact</Link> <br />
+      </div>
+      <hr />
       <div className='container'>
         <div className='row text-center'>
           {gifs.map((gif) => (
