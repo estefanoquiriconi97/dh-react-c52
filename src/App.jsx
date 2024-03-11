@@ -7,6 +7,7 @@ import { Routes, Route, Link } from 'react-router-dom'
 import { Home } from './assets/components/Home'
 import { Contact } from './assets/components/Contact'
 import { About } from './assets/components/About'
+import { Products } from './assets/components/Products'
 
 const URL_BASE = 'https://api.giphy.com/v1/gifs'
 const API_KEY = '2G3plNGzf5KAERR1ekVJPak9Xo1yaLpv'
@@ -46,6 +47,7 @@ function App() {
           <Route path='/' element={<Home />} />
           <Route path='/about' element={<About />} />
           <Route path='/contact' element={<Contact />} />
+          <Route path='/products/:id' element={<Products />} />
           <Route path='*' element={<h1>PAGE NOT FOUND</h1>}/>
         </Routes>
       </div>
